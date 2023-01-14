@@ -1,0 +1,30 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+dj-database-url = "==0.5.0"
+django = "==3.2.9"
+gunicorn = "==20.1.0"
+psycopg2-binary = "==2.9.3"
+pytz = "==2019.3"
+whitenoise = "==5.3.0"
+pytelegrambotapi = "==4.2.2"
+django-heroku = "*"
+ratelimiter = "*"
+schedule = "==1.1.0"
+geopy = "==2.2.0"
+apscheduler = "==3.6.3"
+requests = "*"
+bs4 = "*"
+tzlocal = "*"
+python-dateutil = "*"
+pillow = "==8.2.0"
+tronapi = "*"
+pycoingecko = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

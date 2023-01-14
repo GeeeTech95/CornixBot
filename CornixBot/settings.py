@@ -25,15 +25,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-tr+k(@@0z4qrx5c!+ine!&of2+0hj(37xz!()gm1(*&0dwz@@9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
 if DEBUG == True:
-    WEBHOOK_TOKEN = "1928565537:AAEUG6GAPoWZm3zcDuCkjal3kA-kgKCEbSA"#"5200019147:AAG5bz0uTODuK7ISt0vldhlQJTn_YTbsLvg"
+    WEBHOOK_TOKEN = "5394640699:AAGDlLmHdaYh1ai_MytcaJcvMRsXmTTRSVA"#"5200019147:AAG5bz0uTODuK7ISt0vldhlQJTn_YTbsLvg"
     WEBHOOK_URL = "https://4dbe-197-210-77-167.ngrok.io/"
 else:
-    WEBHOOK_TOKEN = "5200019147:AAG5bz0uTODuK7ISt0vldhlQJTn_YTbsLvg"
+    WEBHOOK_TOKEN = "5394640699:AAGDlLmHdaYh1ai_MytcaJcvMRsXmTTRSVA"
     WEBHOOK_URL = "https://cornix-auto-bot.herokuapp.com/"
 
 
