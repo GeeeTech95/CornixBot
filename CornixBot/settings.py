@@ -30,13 +30,12 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 if DEBUG == True:
-    WEBHOOK_TOKEN = "5394640699:AAGDlLmHdaYh1ai_MytcaJcvMRsXmTTRSVA"#"5200019147:AAG5bz0uTODuK7ISt0vldhlQJTn_YTbsLvg"
-    WEBHOOK_URL = "https://4dbe-197-210-77-167.ngrok.io/"
+    # "5200019147:AAG5bz0uTODuK7ISt0vldhlQJTn_YTbsLvg"
+    WEBHOOK_TOKEN = "5667885025:AAF4Qrshr2f77Y4qvGa1mhnsWzr4R6Vcglo"
+    WEBHOOK_URL = "https://www.cornixtradingbot.com/"  # except we host through ngrok
 else:
-    WEBHOOK_TOKEN = "5394640699:AAGDlLmHdaYh1ai_MytcaJcvMRsXmTTRSVA"
-    WEBHOOK_URL = "https://cornix-auto-bot.herokuapp.com/"
-
-
+    WEBHOOK_TOKEN = "5667885025:AAF4Qrshr2f77Y4qvGa1mhnsWzr4R6Vcglo"
+    WEBHOOK_URL = "https://www.cornixtradingbot.com/"
 
 
 # Application definition
@@ -97,10 +96,10 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'd2i2qg4ot8q7ib', 
-            'USER': 'gtlohrusxznsgx', 
+            'NAME': 'd2i2qg4ot8q7ib',
+            'USER': 'gtlohrusxznsgx',
             'PASSWORD': 'dfe10e445d2ca51d0f0fdf2759faece8a8c3be46c9c8428462306a8274ee9fe8',
-            'HOST': 'postgres://gtlohrusxznsgx:dfe10e445d2ca51d0f0fdf2759faece8a8c3be46c9c8428462306a8274ee9fe8@ec2-3-216-221-31.compute-1.amazonaws.com:5432/d2i2qg4ot8q7ib', 
+            'HOST': 'postgres://gtlohrusxznsgx:dfe10e445d2ca51d0f0fdf2759faece8a8c3be46c9c8428462306a8274ee9fe8@ec2-3-216-221-31.compute-1.amazonaws.com:5432/d2i2qg4ot8q7ib',
             'PORT': '5432',
         }
 
@@ -126,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-#LOGGING
+# LOGGING
 
 LOGGING = {
     'version': 1,
@@ -189,12 +188,12 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
-# STATIC_URL = '/static/' 
-# STATICFILES_DIRS = [ os.path.join(BASE_DIR, '/app/static'), ] 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'collectstatic') 
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [ os.path.join(BASE_DIR, '/app/static'), ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'collectstatic')
 
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage.manifest_strict'#storage.StaticFilesStorage'
+# storage.StaticFilesStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage.manifest_strict'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
-
