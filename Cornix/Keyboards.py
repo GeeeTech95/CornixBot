@@ -4,7 +4,7 @@ from telebot.types import *
 
 def tech_support():
 	keyboard = InlineKeyboardMarkup()
-	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/Cornixsupport_bot")
+	support = InlineKeyboardButton(f"Support 🙋",url="https://t.me/CornixTradingTechSupport_bot")
 	keyboard.add(support)
 	return(keyboard)
 
@@ -20,7 +20,7 @@ def home_key():
 	# misc = InlineKeyboardButton("Misc.",callback_data=f"misc")
 	# subscription = InlineKeyboardButton("📝Subscription",callback_data=f"my_subscription")
 	about_cornix = InlineKeyboardButton(f"ℹ️ Help",callback_data=f"about_cornix")
-	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/Cornixsupport_bot")
+	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/CornixTradingTechSupport_bot")
 	widthdrawal = InlineKeyboardButton(f"♻️ widthdraw",callback_data=f"widthdrawal")
 
 	keyboard.add(new_client)
@@ -60,7 +60,7 @@ def new_client_step_1_of_3(show_menu):
 	BitMEX_client = InlineKeyboardButton(f"KuCoin",callback_data=f"BitMEX@client")
 	Huobipro_client = InlineKeyboardButton(f"Huobi.pro",callback_data=f"Huobi.pro@client")
 	coinex_client = InlineKeyboardButton(f"Coinex",callback_data=f"Coinex@client")
-	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/Cornixsupport_bot")
+	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/CornixTradingTechSupport_bot")
 	main_menu = InlineKeyboardButton("⇱ Main Menu",callback_data=f"return_to_menu")
 
 	
@@ -68,7 +68,7 @@ def new_client_step_1_of_3(show_menu):
 	keyboard.add(Binance_client,FTX_client)
 	keyboard.add(ByBit_client,BitMEX_client)
 	keyboard.add(Huobipro_client,coinex_client)
-	keyboard.add(support)
+	#keyboard.add(support) temporarily disabling support
 	if show_menu == True:
 		keyboard.add(main_menu)
 	else:
@@ -112,7 +112,7 @@ def new_client_step_1_2_of_3(exchange,show_menu):
 
 	about_cornix = InlineKeyboardButton(f"About Cornix",callback_data=f"about_cornix")
 	back = InlineKeyboardButton(f"↵ Back",callback_data=f"back_to_step:1")
-	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/Cornixsupport_bot")
+	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/CornixTradingTechSupport_bot")
 	
 	
 	keyboard.add(about_cornix,support)
@@ -130,7 +130,7 @@ def new_client_step_2_of_3(exchange,show_menu):
 	client_name = InlineKeyboardButton(f"My-{exchange}",callback_data=f"set_name:My-{exchange}")
 	about_cornix = InlineKeyboardButton(f"About Cornix",callback_data=f"about_cornix")
 	back = InlineKeyboardButton(f"↵ Back",callback_data=f"back_to_step:1_2")
-	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/Cornixsupport_bot")
+	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/CornixTradingTechSupport_bot")
 	main_menu = InlineKeyboardButton("⇱ Main Menu",callback_data=f"return_to_menu")
 
 	
@@ -150,7 +150,7 @@ def new_client_step_3_of_3(exchange,show_menu):
 
 	about_cornix = InlineKeyboardButton(f"About Cornix",callback_data=f"about_cornix")
 	back = InlineKeyboardButton(f"↵ Back",callback_data=f"back_to_step:2")
-	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/Cornixsupport_bot")
+	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/CornixTradingTechSupport_bot")
 	main_menu = InlineKeyboardButton("⇱ Main Menu",callback_data=f"return_to_menu")
 
 	keyboard.add(about_cornix,support)
@@ -172,7 +172,7 @@ def about_cornix(step="home"):
 	cornix_features = InlineKeyboardButton("What trading features does Cornix offer?",callback_data=f"cornix_features")
 
 	back = InlineKeyboardButton(f"↵ Back",callback_data=f"back_to_step:{step}")
-	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/Cornixsupport_bot")
+	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/CornixTradingTechSupport_bot")
 	
 	keyboard.add(about_cornix_E)
 	keyboard.add(cornix_can_do)

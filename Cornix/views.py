@@ -15,7 +15,7 @@ from django.views.decorators.http import require_http_methods
 
 
 
-NEW_CLIENT = {}
+NEW_CLIENT = {} 
 coin_gecko = CoinGeckoAPI()
 bot = telebot.TeleBot(settings.WEBHOOK_TOKEN,parse_mode='HTML') #Telegram Bot API
 bot.enable_save_next_step_handlers(filename="handlers-saves/step.save",delay=2)
@@ -70,12 +70,15 @@ def user_details(message):
 	detail["username"] = message.from_user.username
 	return(detail)
 
+
+
 def return_state(user):
 	""" Returns the current state of a user """
 	MY_STEP = STEP.objects.get(user=user)
 	MY_STATE = MY_STEP.state.replace("'",'"')
 	MY_STATE = json.loads(MY_STATE)
 	return(MY_STATE)
+
 
 def return_exchange_and_step(userID):
 	MY_STATE = return_state(userID)
@@ -96,6 +99,8 @@ def return_exchange_and_step(userID):
 			exchange = None
 
 	return(step,exchange)
+
+
 
 def set_my_client_name(message):
 	user_detail =  user_details(message)
@@ -577,7 +582,7 @@ def callback_query(call):
 			bot.edit_message_text(chat_id=chat_id, text=msg, message_id=call.message.message_id,reply_markup=admin_approve_withdrawal(client_id,withdrawal_amount))
 
 
-		elif call.data.startswith("reject_withdrawal:"):
+		elif call.data .startswith("reject_withdrawal:"):
 			# client_id = call.data.split(":")[1]
 			# my_client = MyClient.objects.filter(Q(client_id__icontains=client_id)).first()# This is for a users client method
 			bot.delete_message(chat_id=chat_id,message_id=call.message.message_id)
@@ -677,6 +682,7 @@ def WebConnect(request):
 		update = telebot.types.Update.de_json(data)
 		bot.process_new_updates([update])
 		return HttpResponse(status=201)
+	
 	else:
 		bot.remove_webhook()
 		bot.set_webhook(url=settings.WEBHOOK_URL+settings.WEBHOOK_TOKEN)

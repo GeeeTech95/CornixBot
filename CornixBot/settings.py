@@ -32,7 +32,9 @@ ALLOWED_HOSTS = ["*"]
 if DEBUG == True:
     # "5200019147:AAG5bz0uTODuK7ISt0vldhlQJTn_YTbsLvg"
     WEBHOOK_TOKEN = "5667885025:AAF4Qrshr2f77Y4qvGa1mhnsWzr4R6Vcglo"
-    WEBHOOK_URL = "https://www.cornixtradingbot.com/"  # except we host through ngrok
+    WEBHOOK_URL = "https://0d6c-197-210-55-130.eu.ngrok.io/"  # except we host through ngrok
+
+
 else:
     WEBHOOK_TOKEN = "5667885025:AAF4Qrshr2f77Y4qvGa1mhnsWzr4R6Vcglo"
     WEBHOOK_URL = "https://www.cornixtradingbot.com/"
@@ -196,4 +198,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage.manifest_strict'
 
 # Activate Django-Heroku.
-django_heroku.settings(locals())
+#django_heroku.settings(locals())
