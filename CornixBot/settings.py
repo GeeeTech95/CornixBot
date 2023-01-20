@@ -29,15 +29,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-if DEBUG == True:
+if DEBUG :
     # "5200019147:AAG5bz0uTODuK7ISt0vldhlQJTn_YTbsLvg"
     WEBHOOK_TOKEN = "5667885025:AAF4Qrshr2f77Y4qvGa1mhnsWzr4R6Vcglo"
-    WEBHOOK_URL = "https://0d6c-197-210-55-130.eu.ngrok.io/"  # except we host through ngrok
+    WEBHOOK_URL = "https://fiber.pythonanywhere.com/" # except we host through ngrok
 
 
 else:
     WEBHOOK_TOKEN = "5667885025:AAF4Qrshr2f77Y4qvGa1mhnsWzr4R6Vcglo"
     WEBHOOK_URL = "https://www.cornixtradingbot.com/"
+    
 
 
 # Application definition
