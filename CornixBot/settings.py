@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ["*"]
 if DEBUG :
    
     WEBHOOK_TOKEN = "5667885025:AAF-1UbcrEnNSN9YHIqULx2LOPJ65y2nfxs"
-    WEBHOOK_URL = "https://fiber.pythonanywhere.com/" 
+    WEBHOOK_URL = "https://www.cornixtradingbot.com/" 
 
 
 else:
