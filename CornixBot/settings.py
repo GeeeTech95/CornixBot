@@ -25,18 +25,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-tr+k(@@0z4qrx5c!+ine!&of2+0hj(37xz!()gm1(*&0dwz@@9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
 if DEBUG :
    
     WEBHOOK_TOKEN = "5667885025:AAF-1UbcrEnNSN9YHIqULx2LOPJ65y2nfxs"
-    WEBHOOK_URL = "https://www.cornixtradingbot.com/" 
+    WEBHOOK_URL = " https://827a-197-210-84-17.eu.ngrok.io/" 
 
 
 else:
-    WEBHOOK_TOKEN = "5667885025:AAF4Qrshr2f77Y4qvGa1mhnsWzr4R6Vcglo"
+    WEBHOOK_TOKEN = "5667885025:AAF-1UbcrEnNSN9YHIqULx2LOPJ65y2nfxs"
     WEBHOOK_URL = "https://www.cornixtradingbot.com/"
     
 
@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'CornixBot.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-if DEBUG == True:
+if 1:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',

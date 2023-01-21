@@ -13,12 +13,15 @@ from django.http import HttpResponse
 from .models import User,MyOrder,MyClient,STEP
 from django.views.decorators.http import require_http_methods
 
-
+def get_full_path(filename) :
+    import os.path
+    return os.path.join(os.path.dirname(__file__),filename)
 
 NEW_CLIENT = {} 
 coin_gecko = CoinGeckoAPI()
 bot = telebot.TeleBot(settings.WEBHOOK_TOKEN,parse_mode='HTML') #Telegram Bot API
-bot.enable_save_next_step_handlers(filename="handlers-saves/step.save",delay=2)
+handlers_file_path = get_full_path("handlers-saves/step.save")
+bot.enable_save_next_step_handlers(filename=handlers_file_path,delay=2)
 
 
 
