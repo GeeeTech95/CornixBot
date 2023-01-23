@@ -19,7 +19,11 @@ def get_full_path(filename) :
 
 NEW_CLIENT = {} 
 coin_gecko = CoinGeckoAPI()
-bot = telebot.TeleBot(settings.WEBHOOK_TOKEN,parse_mode='HTML') #Telegram Bot API
+bot = telebot.TeleBot(
+	settings.WEBHOOK_TOKEN,
+	parse_mode='HTML',
+	threaded = False
+	) #Telegram Bot API
 handlers_file_path = get_full_path("handlers-saves/step.save")
 bot.enable_save_next_step_handlers(filename=handlers_file_path,delay=2)
 

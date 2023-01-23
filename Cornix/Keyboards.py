@@ -60,7 +60,7 @@ def new_client_step_1_of_3(show_menu):
 	BitMEX_client = InlineKeyboardButton(f"KuCoin",callback_data=f"BitMEX@client")
 	Huobipro_client = InlineKeyboardButton(f"Huobi.pro",callback_data=f"Huobi.pro@client")
 	coinex_client = InlineKeyboardButton(f"Coinex",callback_data=f"Coinex@client")
-	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/CornixTradingTechSupport_bot")
+	support = InlineKeyboardButton(f"Support 🙋",url="http://t.me/cornixautotradingsupport")
 	main_menu = InlineKeyboardButton("⇱ Main Menu",callback_data=f"return_to_menu")
 
 	
@@ -68,7 +68,7 @@ def new_client_step_1_of_3(show_menu):
 	keyboard.add(Binance_client,FTX_client)
 	keyboard.add(ByBit_client,BitMEX_client)
 	keyboard.add(Huobipro_client,coinex_client)
-	#keyboard.add(support) temporarily disabling support
+	keyboard.add(support) #temporarily disabling support
 	if show_menu == True:
 		keyboard.add(main_menu)
 	else:
