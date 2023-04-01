@@ -3,14 +3,15 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import *
 
 
-USDT = "TP2twCcFRzcqXBb8AeerGzXYZdknGnjGGV"
-ETH = "0xAb7f95B706548928A08d0c26AB08ca5b359eCC02"
-BTC = "bc1qecx3fvxw98n46nl9sthhd2ctzcqh7mjpmwsknj"
+USDT = "TMkLBRBWDRg5N4MWnyNQzy7X6aUHujcNAF"  #"TP2twCcFRzcqXBb8AeerGzXYZdknGnjGGV"
+ETH = "0x424A3598FE297187613aBeaed5a2816Feb1014Fa"     
+BTC = "bc1qa5yrhkqxuyzhqzd48k6kn8uz979yp778x7r76n"
 TRX = "TTLt2GSvrZy4dLHUJJFgiAMekHoKBj2VYr"
 DOT = "13CZNdspezSRqx6TvDRdYVmbNMTeCiT7aaXEPfc4Gwr1vxvX"
 XRP = "rPtugswQVNiZYDgdFNJDF5JGWhMrbrd5HL"
-DODGE = "DGee8VSkYzyYwnR9uoEWY3ftHuyDmuL59Z"
-SOL = "Hrd6gsgU8btwsAAPd99T5L24DfPwJwaEGyUBTeJv1R1j"
+DODGE = "DF3BWS6PawfZjYV4Q3ETNLttJSTkqH6ztP"
+SOL = "E1uKruYRjhafgkJpet7hNDrqmuAzrW9dQDmak9d1ky2W"
+MATIC = "0x424A3598FE297187613aBeaed5a2816Feb1014Fa"
 
 
 def is_active(user):
