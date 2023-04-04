@@ -802,8 +802,8 @@ def WebConnect(request):
 		bot.process_new_updates([update])
 		return HttpResponse(status=201)
 	else:
-		#bot.remove_webhook() #trying to find the reason for the too many requests
-		time.sleep(1)
+		bot.remove_webhook() #trying to find the reason for the too many requests
+		time.sleep(2)
 		bot.set_webhook(url=settings.WEBHOOK_URL+settings.WEBHOOK_TOKEN)
 		print("Done")
 		return HttpResponse(status=201)
