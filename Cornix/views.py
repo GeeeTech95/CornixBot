@@ -1,3 +1,4 @@
+from locale import currency
 import random
 import requests,urllib
 from .messages import *
@@ -13,19 +14,12 @@ from django.http import HttpResponse
 from .models import User,MyOrder,MyClient,STEP
 from django.views.decorators.http import require_http_methods
 
-def get_full_path(filename) :
-    import os.path
-    return os.path.join(os.path.dirname(__file__),filename)
 
-NEW_CLIENT = {} 
+
+NEW_CLIENT = {}
 coin_gecko = CoinGeckoAPI()
-bot = telebot.TeleBot(
-	settings.WEBHOOK_TOKEN,
-	parse_mode='HTML',
-	threaded = False
-	) #Telegram Bot API
-handlers_file_path = get_full_path("handlers-saves/step.save")
-bot.enable_save_next_step_handlers(filename=handlers_file_path,delay=2)
+bot = telebot.TeleBot(settings.WEBHOOK_TOKEN,parse_mode='HTML') #Telegram Bot API
+bot.enable_save_next_step_handlers(filename="handlers-saves/step.save",delay=2)
 
 
 
@@ -77,15 +71,12 @@ def user_details(message):
 	detail["username"] = message.from_user.username
 	return(detail)
 
-
-
 def return_state(user):
 	""" Returns the current state of a user """
 	MY_STEP = STEP.objects.get(user=user)
 	MY_STATE = MY_STEP.state.replace("'",'"')
 	MY_STATE = json.loads(MY_STATE)
 	return(MY_STATE)
-
 
 def return_exchange_and_step(userID):
 	MY_STATE = return_state(userID)
@@ -107,8 +98,6 @@ def return_exchange_and_step(userID):
 
 	return(step,exchange)
 
-
-
 def set_my_client_name(message):
 	user_detail =  user_details(message)
 	MY_STATE = return_state(user_detail["user_id"])
@@ -121,8 +110,11 @@ def set_my_client_name(message):
 		my_option = MY_STATE["option"]
 	except:
 		my_option = ""
-
-	bot.send_message(chat_id=user_detail["chat_id"], text="Select the currency you want to invest:",reply_markup=payment_method())
+	
+	if MY_STATE['exchange'] == "MarginedScheme":
+		bot.send_message(chat_id=user_detail["chat_id"],text="Select the amount you want to invest:",reply_markup=deposit_options())
+	else:
+		bot.send_message(chat_id=user_detail["chat_id"], text="Select the currency you want to invest:",reply_markup=payment_method())
 
 
 def set_invest_amount(message):
@@ -154,6 +146,78 @@ def set_invest_amount(message):
 
 		elif q == "DODGE":
 			detail = payment_detail.format(amount,"DODGE",DODGE)
+		
+		elif q == "BCH":
+			detail = payment_detail.format(amount,"BCH",BCH)
+		
+		elif q == "BNB":
+			detail = payment_detail.format(amount,"BNB",BNB)
+		
+		elif q == "BSC":
+			detail = payment_detail.format(amount,"BSC",BSC)
+		
+		elif q == "LTC":
+			detail = payment_detail.format(amount,"LTC",LTC)
+		
+		elif q == "Polygon":
+			detail = payment_detail.format(amount,"MATIC",Polygon)
+		
+		elif q == "XLM":
+			detail = payment_detail.format(amount,"XLM",XLM)
+		
+		elif q == "Atom":
+			detail = payment_detail.format(amount,"Atom",Atom)
+		
+		elif q == "VET":
+			detail = payment_detail.format(amount,"VET",VET)
+		
+		elif q == "DASH":
+			detail = payment_detail.format(amount,"DASH",DASH)
+		
+		elif q == "NEAR":
+			detail = payment_detail.format(amount,"NEAR",NEAR)
+		
+		elif q == "FTM":
+			detail = payment_detail.format(amount,"FTM",FTM)
+		
+		elif q == "ZEC":
+			detail = payment_detail.format(amount,"ZEC",ZEC)
+		
+		elif q == "ETC":
+			detail = payment_detail.format(amount,"ETC",ETC)
+		
+		elif q == "FIL":
+			detail = payment_detail.format(amount,"FIL",FIL)
+		
+		elif q == "ALGO":
+			detail = payment_detail.format(amount,"ALGO",ALGO)
+		
+		elif q == "WAVES":
+			detail = payment_detail.format(amount,"WAVES",WAVES)
+		
+		elif q == "RUNE":
+			detail = payment_detail.format(amount,"RUNE",RUNE)
+		
+		elif q == "KAVA":
+			detail = payment_detail.format(amount,"KAVA",KAVA)
+		
+		elif q == "THETA":
+			detail = payment_detail.format(amount,"THETA",THETA)
+		
+		elif q == "ZIL":
+			detail = payment_detail.format(amount,"ZIL",ZIL)
+		
+		elif q == "TOMO":
+			detail = payment_detail.format(amount,"TOMO",TOMO)
+		
+		elif q == "TFUEL":
+			detail = payment_detail.format(amount,"TFUEL",TFUEL)
+		
+		elif q == "QTUM":
+			detail = payment_detail.format(amount,"QTUM",QTUM)
+		
+		elif q == "RVN":
+			detail = payment_detail.format(amount,"RVN",RVN)
 		else:
 			pass
 
@@ -197,10 +261,10 @@ def process_transaction_hash(message):
 			myclient.save()
 
 			bot.send_message(user_detail["chat_id"],msg,reply_markup=ReplyKeyboardRemove(selective=False))#Main_Menu())
-			bot.send_message(user_detail["chat_id"],"Once your deposit is confirmed the bot will start trading",reply_markup=Main_Menu())
+			bot.send_message(user_detail["chat_id"],"Once your deposit is confirmed the bot will start trading",reply_markup=ReplyKeyboardRemove(selective=False))#reply_markup=Main_Menu())
 			STEP.objects.filter(user = user_detail["user_id"]).update(next_step="")
 
-			notify_admin_payment(myclient.client_id,payment_method,message.text)
+			notify_admin_payment(myclient,payment_method,message.text)
 
 
 			
@@ -283,7 +347,6 @@ def process_withdrawal_address(message):
 		STEP.objects.filter(user = user_detail["user_id"]).update(next_step="")
 
 
-
 def notify_admin(user):
 	""" This is used to broadcast a new member subscription """
 	admins = User.objects.filter(is_admin=True)
@@ -302,13 +365,14 @@ def notify_admin(user):
 		bot.send_message(admin.chat_id,msg)
 
 
-def notify_admin_payment(client_id,coin,txn_hash):
+def notify_admin_payment(client,coin,txn_hash):
 	""" This is used to broadcast a new member subscription """
 	admins = User.objects.filter(is_admin=True)
-	client = MyClient.objects.get(client_id=client_id)
+	# client = MyClient.objects.get(client_id=client_id)
 
 	for admin in admins:
-		msg = f"@{client.myclient.user_name} invested  {client.balance} {coin} \n\n TXN HASH: <code>{txn_hash}</code>"
+		msg = f"""@{client.myclient.user_name} invested  {client.balance} {coin}  for <b>{client.exchange}</b>
+		\n\n TXN HASH: <code>{txn_hash}</code>"""
 		try:
 			client_id = hex(int(client.client_id.time_low))[2:]
 			bot.send_message(admin.chat_id,msg,reply_markup=admin_approval(client.myclient,client_id))
@@ -356,8 +420,13 @@ def callback_query(call):
 			MY_STATE["previuos_step"] = "1"
 			STEP.objects.filter(user = user).update(state = MY_STATE)
 
-			if q == "Binance" or q == "ByBit" or q == "Coinex":
+			if q == "Binance" or q == "ByBit" or q == "Coinex" or q == 'BULLIGON':
 				bot.edit_message_text(chat_id=chat_id, text=step_1_2_of_3.format(q), message_id=call.message.message_id,reply_markup=new_client_step_1_2_of_3(q,show_menu))
+			
+			elif q == "MarginedScheme":
+				bot.edit_message_text(chat_id=chat_id, text=margined_scheme, message_id=call.message.message_id,reply_markup=margin_payment_step_1(q,show_menu))
+
+
 			else:
 				bot.edit_message_text(chat_id=chat_id, text=step_2_of_3, message_id=call.message.message_id,reply_markup=new_client_step_2_of_3(q,show_menu))
 
@@ -386,13 +455,21 @@ def callback_query(call):
 				my_option = MY_STATE["option"]
 			except:
 				my_option = ""
+			
+			if MY_STATE['exchange'] == "MarginedScheme":
+				bot.edit_message_text(chat_id=chat_id, text="Select the amount you want to invest:", message_id=call.message.message_id,reply_markup=deposit_options())
+			else:
+				bot.edit_message_text(chat_id=chat_id, text="Select the currency you want to invest:", message_id=call.message.message_id,reply_markup=payment_method())
+		
+		elif call.data.startswith("step_margin:"):
+			step = call.data.split(":")[1]
+			client_exchange = MY_STATE["exchange"]
+			STEP.objects.filter(user = user).update(state = MY_STATE,next_step="SET_NAME")
 
-			bot.edit_message_text(chat_id=chat_id, text="Select the currency you want to invest:", message_id=call.message.message_id,reply_markup=payment_method())
-
+			bot.edit_message_text(chat_id=chat_id, text=step_2_of_3, message_id=call.message.message_id,reply_markup=new_client_step_2_of_3(client_exchange,show_menu))
 
 		elif call.data.startswith("back_to_step:"):
 			q = call.data.split(":")[1]
-
 			step,exchange = return_exchange_and_step(userID)
 
 
@@ -405,20 +482,24 @@ def callback_query(call):
 				bot.edit_message_text(chat_id=chat_id, text=about_cornix_auto, message_id=call.message.message_id,reply_markup=about_cornix(step))
 			
 			elif q == "my_portfolio":
-
-				usdt_balance = get_user_portfolio(userID)
-				btc_balance = usdt_to_btc(float(usdt_balance))
-
-				bot.edit_message_text(chat_id=chat_id, text=my_portfolio.format(btc_balance,usdt_balance), message_id=call.message.message_id,reply_markup=my_portfolios_btn())
+				my_user_clients = MyClient.objects.filter(myclient = user).exclude(has_funds=False)
+				bot.edit_message_text(chat_id=chat_id, text=my_portfolio_msg, message_id=call.message.message_id,reply_markup=my_portfolios_btn(my_user_clients))
 
 			elif q == "1":
 				bot.edit_message_text(chat_id=chat_id, text=step_1_of_3, message_id=call.message.message_id,reply_markup=new_client_step_1_of_3(show_menu))
 			
 			elif q == "2":
+				STEP.objects.filter(user = user).update(next_step="SET_NAME")
+				try:exchange = exchange.split('My-')[1]
+				except:pass
 				bot.edit_message_text(chat_id=chat_id, text=step_2_of_3, message_id=call.message.message_id,reply_markup=new_client_step_2_of_3(exchange,show_menu))
 
 			elif q == "1_2":
-				bot.edit_message_text(chat_id=chat_id, text=step_1_2_of_3.format(MY_STATE["exchange"]), message_id=call.message.message_id,reply_markup=new_client_step_1_2_of_3(exchange,show_menu))
+				if exchange == 'MarginedScheme':
+					bot.edit_message_text(chat_id=chat_id, text=margined_scheme, message_id=call.message.message_id,reply_markup=margin_payment_step_1(exchange,show_menu))
+				else:
+					client_exchange = MY_STATE["exchange"]
+					bot.edit_message_text(chat_id=chat_id, text=step_1_2_of_3.format(MY_STATE["exchange"]), message_id=call.message.message_id,reply_markup=new_client_step_1_2_of_3(client_exchange,show_menu))
 
 			elif q == "bot_configs":
 				bot.edit_message_text(chat_id=chat_id, text=bot_config, message_id=call.message.message_id,reply_markup=bot_configs())
@@ -426,6 +507,18 @@ def callback_query(call):
 				pass
 
 		#THE BILLING PROGRAM STARTS HERE
+		
+		elif call.data.startswith("deposit:"):
+			amount = call.data.split(":")[1]
+			detail = payment_detail.format(amount,"USDT",USDT)
+
+			bot.send_message(chat_id=chat_id, text=detail,reply_markup=confirm_payment())
+			
+			MY_STATE["deposit_amount"] = amount
+			MY_STATE["payment_method"] = "USDT"
+			STEP.objects.filter(user = user).update(state = MY_STATE)
+			STEP.objects.filter(user = user).update(next_step="")
+
 		elif call.data.startswith("pay_with:"):
 			q = call.data.split(":")[1]
 			MY_STATE["payment_method"] = q
@@ -437,7 +530,6 @@ def callback_query(call):
 
 		elif call.data == "i_paid":
 			user = User.objects.get(user_id=userID)
-
 			detail = "Please send transaction ID/Hash as proof\nThis will be processed by the Bot Automatically"
 			bot.send_message(chat_id=chat_id, text=detail,reply_markup=Cancel_btn())
 			STEP.objects.filter(user = user).update(next_step="PROC_TXN_HASH")
@@ -468,10 +560,32 @@ def callback_query(call):
 			bot.edit_message_text(chat_id=chat_id, text=msg, message_id=call.message.message_id,reply_markup=home_key())
 
 		elif call.data == "my_portfolio":
-			usdt_balance = get_user_portfolio(userID)
-			btc_balance = usdt_to_btc(float(usdt_balance))
-			bot.edit_message_text(chat_id=chat_id, text=my_portfolio.format(btc_balance,usdt_balance), message_id=call.message.message_id,reply_markup=my_portfolios_btn())
+			my_user_clients = MyClient.objects.filter(myclient = user).exclude(has_funds=False)
+			bot.edit_message_text(chat_id=chat_id, text=my_portfolio_msg, message_id=call.message.message_id,reply_markup=my_portfolios_btn(my_user_clients))
+		
+		elif call.data.startswith("portfolio:"):
+			client_id = call.data.split(':')[1]
+			my_client = MyClient.objects.filter(Q(client_id__icontains=client_id)).first()
 
+			client_name =  my_client.client_name
+			balance = my_client.balance
+			currency = my_client.investment_currency
+			exchange = my_client.exchange
+
+			client_detail = my_client_detail.format(client_name,balance,currency,exchange)
+
+			bot.edit_message_text(chat_id=chat_id, text=client_detail, message_id=call.message.message_id,reply_markup=my_portfolios_details_btn(my_client.client_id))
+		
+		elif call.data == 'stop_loss':
+			bot.edit_message_text(chat_id=chat_id, text=stop_loss_msg, message_id=call.message.message_id,reply_markup=toggle_stop_loss_btn())
+		
+		elif call.data == 'stop_loss_enabled':
+			bot.edit_message_text(chat_id=chat_id, text="automatic stop loss activated.", message_id=call.message.message_id,reply_markup=back_to_my_portfolio_btn())
+		
+		elif call.data == 'stop_loss_disabled':
+			bot.edit_message_text(chat_id=chat_id, text="automatic stop loss de-activated.", message_id=call.message.message_id,reply_markup=back_to_my_portfolio_btn())
+		
+		
 		elif call.data == "my_trades":
 			my_trades = return_trade_history(user)
 			bot.edit_message_text(chat_id=chat_id, text=f"{trade_history}{my_trades}", message_id=call.message.message_id,reply_markup=Main_Menu())
@@ -489,7 +603,7 @@ def callback_query(call):
 			subscriber = User.objects.get(user_id=user)
 
 			MyClient.objects.filter(myclient=subscriber).update(has_funds = True,start_trading=True)
-			bot.send_message(subscriber.chat_id,"Congratulations You deposit is successful the bot will start trading now.")
+			bot.send_message(subscriber.chat_id,"Congratulations You deposit is successful the bot will start trading now.",reply_markup=Main_Menu())
 
 			my_client = MyClient.objects.filter(Q(client_id__icontains=client_id)).first()# This is for a users client method
 
@@ -497,15 +611,18 @@ def callback_query(call):
 			bot.edit_message_text(chat_id=chat_id, text=msg, message_id=call.message.message_id,reply_markup=admin_approval(my_client.myclient,client_id))
 
 		elif call.data.startswith("reject_user:"):
-			q = call.data.split(":")[1]
-			subscriber = User.objects.get(user_id=q)
-			msg = """Sorry but we could'nt process your payment therego the bot will not start trading.
+			# q = call.data.split(":")[1]
+			user,client_id = call.data.split(":")[1].split(",")
+			subscriber = User.objects.get(user_id=user)
+			msg = """Sorry but we could'nt process your payment there go the bot will not start trading.
 			"""
 			MyClient.objects.filter(myclient=subscriber).update(has_funds = False,start_trading = False)
+			my_client = MyClient.objects.filter(Q(client_id__icontains=client_id)).first()# This is for a users client method
+			
+			my_client.delete()
 			bot.send_message(subscriber.chat_id,msg)
-
 			bot.delete_message(chat_id=chat_id,message_id=call.message.message_id)
-
+			
 		#ABOUT CORNIX CALLBACK DATA
 		elif call.data == "about_cornix":
 			bot.edit_message_text(chat_id=chat_id, text=about_cornix_auto, message_id=call.message.message_id,reply_markup=about_cornix())
@@ -529,38 +646,38 @@ def callback_query(call):
 
 		#WITHDRAWAL FUNTION BEGINS
 
-		elif call.data == "widthdrawal":
+		elif call.data.startswith("widthdrawal:"):
+
+			client_id = call.data.split(':')[1]
+			my_client = MyClient.objects.filter(Q(client_id__icontains=client_id)).first()
 
 			MY_STATE["WITHDRAWAL"] = {}
 			STEP.objects.filter(user = user).update(state = MY_STATE)
-			msg = "Select the appropriate crypto asset to proceed with your withdrawal.\n\n Select the coins to withdraw :"
-			bot.edit_message_text(chat_id=chat_id, text=msg, message_id=call.message.message_id,reply_markup=withdrawal_currency_opt())
 
-
-		elif call.data.startswith("withdraw_with:"):
-			q = call.data.split(":")[1]
-			MY_STATE["WITHDRAWAL"]["withdrawal_currency"] = q
+			MY_STATE["WITHDRAWAL"]["withdrawal_currency"] = my_client.investment_currency
+			MY_STATE["WITHDRAWAL"]["withdrawal_client"] = client_id 
 			msg = "Please enter the amount you want to withdraw in USDT:"
 			STEP.objects.filter(user = user).update(state = MY_STATE,next_step="GET_WITHDRAWAL_AMOUNT")
 			bot.send_message(chat_id=chat_id, text=msg,reply_markup=Cancel_btn())
-
-			
+	
 
 
 		elif call.data == "confirm_withdrawal":
 
 			withdrawal_amount = MY_STATE["WITHDRAWAL"]["withdrawal_amount"]
-			my_clients = MyClient.objects.filter(myclient=user).filter(balance__gte=withdrawal_amount)
-			if my_clients.exists():
+			client_id = MY_STATE["WITHDRAWAL"]["withdrawal_client"] 
+			my_client = MyClient.objects.filter(Q(client_id__icontains=client_id))
 
-				client = my_clients.first()
+			if my_client.exists():
+
+				client = my_client.first()
 
 				withdrawal_amount = MY_STATE["WITHDRAWAL"]["withdrawal_amount"]
 				withdrawal_address = MY_STATE["WITHDRAWAL"]["withdrawal_address"]
 				withdrawal_currency = MY_STATE["WITHDRAWAL"]["withdrawal_currency"]
 
 
-				bot.send_message(chat_id=chat_id, text="Withdrawal in progress please wait...")
+				bot.send_message(chat_id=chat_id, text="Withdrawal in progress please wait...",reply_markup=Main_Menu())
 				notify_admin_withdrawal(client.client_id,withdrawal_amount,withdrawal_currency,withdrawal_address)
 			else:
 				bot.send_message(chat_id=chat_id, text="Sorry not enough balance",reply_markup=Main_Menu())
@@ -589,16 +706,11 @@ def callback_query(call):
 			bot.edit_message_text(chat_id=chat_id, text=msg, message_id=call.message.message_id,reply_markup=admin_approve_withdrawal(client_id,withdrawal_amount))
 
 
-		elif call.data .startswith("reject_withdrawal:"):
+		elif call.data.startswith("reject_withdrawal:"):
 			# client_id = call.data.split(":")[1]
 			# my_client = MyClient.objects.filter(Q(client_id__icontains=client_id)).first()# This is for a users client method
 			bot.delete_message(chat_id=chat_id,message_id=call.message.message_id)
 			
-
-
-			
-			
-
 		else:
 			pass
 
@@ -652,7 +764,11 @@ def reply_msg(message):
 	my_state = STEP.objects.get(user = user)
 	
 	if user_detail["msg_type"] == "private":
-		if my_state.next_step == "SET_NAME":
+		if message.text == "❌ Cancel":
+			STEP.objects.filter(user = user_detail["user_id"]).update(next_step="")
+			bot.send_message(user_detail["chat_id"],"Action terminated use the /start command to begin",reply_markup=ReplyKeyboardRemove(selective=False))
+		
+		elif my_state.next_step == "SET_NAME":
 			set_my_client_name(message)
 		elif my_state.next_step == "PROC_TXN_HASH":
 			process_transaction_hash(message)
@@ -663,10 +779,6 @@ def reply_msg(message):
 
 		elif my_state.next_step == "GET_WITHDRAWAL_ADDRESS":
 			process_withdrawal_address(message)
-
-		elif message.text == "❌ Cancel":
-			STEP.objects.filter(user = user_detail["user_id"]).update(next_step="")
-			bot.send_message(user_detail["chat_id"],"Action terminated use the /start command to begin",reply_markup=ReplyKeyboardRemove(selective=False))
 
 		else:
 			bot.send_message(user_detail["chat_id"],message.text)
@@ -689,9 +801,9 @@ def WebConnect(request):
 		update = telebot.types.Update.de_json(data)
 		bot.process_new_updates([update])
 		return HttpResponse(status=201)
-	
 	else:
-		bot.remove_webhook()
+		#bot.remove_webhook() #trying to find the reason for the too many requests
+		time.sleep(1)
 		bot.set_webhook(url=settings.WEBHOOK_URL+settings.WEBHOOK_TOKEN)
 		print("Done")
 		return HttpResponse(status=201)
