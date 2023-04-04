@@ -28,9 +28,8 @@ def Simulate_Trading():
 	while 1:
 		UserClients = MyClient.objects.all().exclude(has_funds=False)
 
-
 		for client in UserClients:
-			print(client,"hghdhdsdhsg")
+			print(client,"hhhhhhh")
 			my_trades = MyOrder.objects.filter(client=client)
 			if my_trades.exists():
 				last_trade = my_trades.order_by('-date_placed').first()
