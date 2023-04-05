@@ -748,6 +748,7 @@ def WebConnect(request):
 
     else:
         bot.remove_webhook()
+        time.sleep(1)
         bot.set_webhook(url=settings.WEBHOOK_URL+settings.WEBHOOK_TOKEN)
         print("Done")
         return HttpResponse(status=201)
