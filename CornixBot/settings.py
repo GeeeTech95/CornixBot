@@ -25,20 +25,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-tr+k(@@0z4qrx5c!+ine!&of2+0hj(37xz!()gm1(*&0dwz@@9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-if DEBUG :
-   
+if DEBUG:
+
     WEBHOOK_TOKEN = "5667885025:AAF-1UbcrEnNSN9YHIqULx2LOPJ65y2nfxs"
-    WEBHOOK_URL = "https://2960-197-210-54-31.eu.ngrok.io/" 
+    WEBHOOK_URL = "https://6d83-197-210-226-220.eu.ngrok.io/"
 
 
 else:
     WEBHOOK_TOKEN = "5667885025:AAF-1UbcrEnNSN9YHIqULx2LOPJ65y2nfxs"
     WEBHOOK_URL = "https://www.cornixtradingbot.com/"
-    
 
 
 # Application definition
@@ -178,9 +177,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-
-
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -202,4 +198,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 #STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage.manifest_strict'
 
 # Activate Django-Heroku.
-#django_heroku.settings(locals())
+# django_heroku.settings(locals())
